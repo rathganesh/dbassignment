@@ -9,20 +9,24 @@ import org.testng.Assert;
 
 import base.BaseTest;
 
-public class HomePage{
+public class HomePage extends BaseTest{
 	@FindBy( xpath = "//img[@alt='ESPNcricinfo']")
 	private WebElement espnCricInfoLogo;
 	
 	@FindBy(xpath = "//img[@alt='ESPNcricinfo']/ancestor::div[2]//a[text()]")
 	private List<WebElement> tileNavigationBarLink;
+
+	@FindBy(xpath = "//h2[text()]")
+	private List<WebElement> sectionText;
 	
 	private String[] tileNavigationBarLinkText = {"Live Scores","Series","Teams","News","Features","Videos","Stats"};
-	
-	
+	private String[] sectionTextExpected = {"Match Coverage","Featured","Top Stories","Trending Players","Featured","In Depth","Writers","Key Series","Must Watch"};
+
 	public HomePage() {
-		BaseTest.driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
-		Assert.assertEquals(BaseTest.driver.getTitle(),"Today's Cricket Match | Cricket Update | Cricket News | ESPNcricinfo", "HomePage title not matching");
-		PageFactory.initElements(BaseTest.driver, this);
+		setup();
+		driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(120));
+		Assert.assertEquals(driver.getTitle(),"Today's Cricket Match | Cricket Update | Cricket News | ESPNcricinfo", "HomePage title not matching");
+		PageFactory.initElements(driver, this);
 		Assert.assertTrue(this.espnCricInfoLogo.isDisplayed(), "EspnCricInfoLogo not displayed");
 	}
 	
@@ -33,6 +37,15 @@ public class HomePage{
 					  tileNavigationBarLinkText[i].toString(),tileNavigationBarLink.get(i).getText()+ " text not matched");
 		  }
 		 
+	}
+
+	public void validateSectionText() {
+
+		for(int i=0; i<tileNavigationBarLink.size();i++) {
+			Assert.assertEquals(tileNavigationBarLink.get(i).getText(),
+					tileNavigationBarLinkText[i].toString(),tileNavigationBarLink.get(i).getText()+ " text not matched");
+		}
+
 	}
 	
 
