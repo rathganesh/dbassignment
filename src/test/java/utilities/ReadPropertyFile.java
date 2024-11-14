@@ -6,7 +6,6 @@ import java.util.Properties;
 
 public class ReadPropertyFile {
 	FileReader fileReader;
-	Properties properties;
 	String propertiesFileLocation = System.getProperty("user.dir")+"\\src\\test\\resources\\config\\config.properties";
 	
 	public String getPropertiesFileValue(String propertyKey) throws IOException {

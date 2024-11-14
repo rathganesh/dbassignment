@@ -27,13 +27,6 @@ public class HomePage{
 	}
 	
 	public void validateTileNavigationBarLinkText() {
-		
-		/*
-		 * int i = 0; for (WebElement wb : this.tileNavigationBarLink) {
-		 * Assert.assertEquals(wb.getText(),
-		 * tileNavigationBarLinkText[i].toString(),wb.getText()+ " text not matched");
-		 * i++; }
-		 */
 		  
 		  for(int i=0; i<tileNavigationBarLink.size();i++) {
 			  Assert.assertEquals(tileNavigationBarLink.get(i).getText(),

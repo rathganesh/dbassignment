@@ -7,7 +7,7 @@ import org.w3c.dom.Document;
 
 public class ReadXMLFile {
 
-	public static String testData;
+	/*public static String testData;
 	private String xmlFilePath = "./src/test/resources/testdata/testdata.xml";
 	public String readXMLValue(String xmlFilePath) {
 		try {
@@ -20,5 +20,5 @@ public class ReadXMLFile {
 			e.printStackTrace();
 		}
 		return testData;
-	}
+	}*/
 }
