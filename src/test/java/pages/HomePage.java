@@ -1,7 +1,10 @@
 package pages;
 
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
+
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -18,9 +21,18 @@ public class HomePage extends BaseTest{
 
 	@FindBy(xpath = "//h2[text()]")
 	private List<WebElement> sectionText;
-	
-	private String[] tileNavigationBarLinkText = {"Live Scores","Series","Teams","News","Features","Videos","Stats"};
-	private String[] sectionTextExpected = {"Match Coverage","Featured","Top Stories","Trending Players","Featured","In Depth","Writers","Key Series","Must Watch"};
+
+	@FindBy(xpath = "//i[@class='icon-search-outlined ds-text-icon-inverse ci-nav-item ci-nav-hover']")
+	private WebElement searchIcon;
+
+	@FindBy(xpath = "//input[@placeholder='Search Players, Teams or Series']")
+	private WebElement searchBoxInput;
+
+	@FindBy(xpath = "//p[@class='searched-for']")
+	private WebElement searchResultText;
+
+	public static List<String> tileNavigationBarLinkText = new ArrayList<>();
+	public static List<String> sectionTextExpected = new ArrayList<>();
 
 	public HomePage() {
 		setup();
@@ -29,24 +41,34 @@ public class HomePage extends BaseTest{
 		PageFactory.initElements(driver, this);
 		Assert.assertTrue(this.espnCricInfoLogo.isDisplayed(), "EspnCricInfoLogo not displayed");
 	}
-	
-	public void validateTileNavigationBarLinkText() {
-		  
-		  for(int i=0; i<tileNavigationBarLink.size();i++) {
-			  Assert.assertEquals(tileNavigationBarLink.get(i).getText(),
-					  tileNavigationBarLinkText[i].toString(),tileNavigationBarLink.get(i).getText()+ " text not matched");
-		  }
-		 
-	}
 
-	public void validateSectionText() {
-
-		for(int i=0; i<tileNavigationBarLink.size();i++) {
-			Assert.assertEquals(tileNavigationBarLink.get(i).getText(),
-					tileNavigationBarLinkText[i].toString(),tileNavigationBarLink.get(i).getText()+ " text not matched");
+	public List<String> getSectionText(){
+		for (WebElement value : sectionText){
+			sectionTextExpected.add(value.getText());
+			driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(120));
 		}
-
+		return sectionTextExpected;
 	}
-	
+
+	public List<String> getTileNavigationBarLink(){
+		for (WebElement value : tileNavigationBarLink){
+			tileNavigationBarLinkText.add(value.getText());
+			driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(120));
+		}
+		return tileNavigationBarLinkText;
+	}
+
+	public void enterValueInSearchBox(String enterSearchValue){
+		this.searchIcon.click();
+		searchBoxInput.sendKeys(enterSearchValue+ Keys.ENTER);
+		driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(120));
+	}
+
+	public void validateSearchText(String searchTextValue){
+		driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(120));
+		Assert.assertTrue(this.searchResultText.getText().contains(searchTextValue),"Search text value not matched");
+		driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(120));
+	}
+
 
 }
